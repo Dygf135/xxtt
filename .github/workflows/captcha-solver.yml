@@ -1,0 +1,33 @@
+name: Captcha Solver
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  solve-captcha:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+        
+    - name: Install dependencies
+      run: |
+        npm install puppeteer puppeteer-extra puppeteer-extra-plugin-stealth axios
+        
+    - name: Run captcha solver
+      run: node captcha-solver.js
+      
+    - name: Upload screenshot
+      uses: actions/upload-artifact@v2
+      with:
+        name: captcha-screenshot
+        path: screenshot.png
