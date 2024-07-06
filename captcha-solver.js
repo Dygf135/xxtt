@@ -201,3 +201,34 @@ async function run() {
                         }
                     }
                     // Stop solving
+// Stop solving when Automated queries message is shown
+                    if (qSelector(DOSCAPTCHA) && qSelector(DOSCAPTCHA).innerText.length > 0) {
+                        console.log("Automated Queries Detected");
+                        clearInterval(startInterval);
+                    }
+                } catch (err) {
+                    console.log(err.message);
+                    console.log("An error occurred while solving. Stopping the solver.");
+                    clearInterval(startInterval);
+                }
+            }, 10000);
+        });
+
+        // Wait for the CAPTCHA to be solved
+        await page.waitForFunction(() => {
+            const recaptchaStatus = document.querySelector('iframe[src*="api2/anchor"]').contentWindow.document.querySelector('#recaptcha-accessible-status');
+            return recaptchaStatus && recaptchaStatus.innerText.includes('You are verified');
+        }, { timeout: 60000 });
+
+        // Take a screenshot after CAPTCHA is solved
+        await page.screenshot({ path: 'screenshot.png' });
+        console.log('Screenshot taken after CAPTCHA is solved.');
+
+        await browser.close();
+    } catch (error) {
+        console.error('Error occurred while running CAPTCHA solver:', error);
+        process.exit(1);  // Exit with error code to indicate failure
+    }
+}
+
+run();
