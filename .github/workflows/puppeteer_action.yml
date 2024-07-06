@@ -1,20 +1,19 @@
-name: Puppeteer CAPTCHA Solver and Screenshot
-
-on:
-  push:
-    branches:
-      - main
-
 jobs:
   run_puppeteer:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
       - name: Use Node.js 16.x
         uses: actions/setup-node@v2
         with:
           node-version: '16.x'
-      - run: npm install
-      - run: npm run solve-captcha-and-screenshot
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run Puppeteer script
+        run: node solveCaptcha.js
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
