@@ -1,26 +1,25 @@
-puppeteer.launch()
 const puppeteer = require('puppeteer-extra');
 const StealthPlugin = require('puppeteer-extra-plugin-stealth');
 puppeteer.use(StealthPlugin());
 
 async function run() {
     const browser = await puppeteer.launch({
-        headless: false,
-        devtools: true,
-        args: [
-            '--allow-external-pages',
-            '--allow-third-party-modules',
-            '--data-reduction-proxy-http-proxies',
-            '--disable-web-security',
-            '--enable-automation',
-            '--disable-features=IsolateOrigins,site-per-process,SitePerProcess',
-            '--flag-switches-begin --disable-site-isolation-trials --flag-switches-end',
-        ],
-        executablePath: executablePath(),
-    });
+    headless: true,
+    args: [
+        '--no-sandbox',
+        '--disable-setuid-sandbox',
+        '--allow-external-pages',
+        '--allow-third-party-modules',
+        '--data-reduction-proxy-http-proxies',
+        '--disable-web-security',
+        '--enable-automation',
+        '--disable-features=IsolateOrigins,site-per-process,SitePerProcess',
+        '--flag-switches-begin --disable-site-isolation-trials --flag-switches-end',
+    ],
+});
 
     const page = await browser.newPage();
-    await page.goto("https://patrickhlauke.github.io/recaptcha/", { waitUntil: 'networkidle0' });
+    await page.goto("https://nibmworldwide.com/exams/mis", { waitUntil: 'networkidle0' });
 
     // Solver code
     await page.evaluate(() => {
