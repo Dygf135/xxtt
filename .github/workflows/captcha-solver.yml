@@ -19,9 +19,14 @@ jobs:
       with:
         node-version: '20'
         
-    - name: Install dependencies
+    - name: Install system dependencies
       run: |
-        npm install puppeteer puppeteer-extra puppeteer-extra-plugin-stealth axios
+        sudo apt-get update
+        sudo apt-get install -y libgbm-dev libnss3 libatk-bridge2.0-0 libgtk-3-0 libgdk-pixbuf2.0-0
+        
+    - name: Install Node dependencies
+      run: |
+        npm install puppeteer puppeteer-extra puppeteer-extra-plugin-stealth axios --verbose
         
     - name: Run captcha solver
       run: node captcha-solver.js
