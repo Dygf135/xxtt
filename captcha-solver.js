@@ -1,23 +1,23 @@
-
+const { executablePath } = require('puppeteer');
 const puppeteer = require('puppeteer-extra');
 const StealthPlugin = require('puppeteer-extra-plugin-stealth');
 puppeteer.use(StealthPlugin());
 
 async function run() {
-const browser = await puppeteer.launch({
-    headless: true,
-    args: [
-        '--no-sandbox',
-        '--disable-setuid-sandbox',
-        '--allow-external-pages',
-        '--allow-third-party-modules',
-        '--data-reduction-proxy-http-proxies',
-        '--disable-web-security',
-        '--enable-automation',
-        '--disable-features=IsolateOrigins,site-per-process,SitePerProcess',
-        '--flag-switches-begin --disable-site-isolation-trials --flag-switches-end',
-    ],
-});
+    const browser = await puppeteer.launch({
+        headless: true,
+        devtools: true,
+        args: [
+            '--allow-external-pages',
+            '--allow-third-party-modules',
+            '--data-reduction-proxy-http-proxies',
+            '--disable-web-security',
+            '--enable-automation',
+            '--disable-features=IsolateOrigins,site-per-process,SitePerProcess',
+            '--flag-switches-begin --disable-site-isolation-trials --flag-switches-end',
+        ],
+        executablePath: executablePath(),
+    });
 
     const page = await browser.newPage();
     await page.goto("https://nibmworldwide.com/exams/mis", { waitUntil: 'networkidle0' });
