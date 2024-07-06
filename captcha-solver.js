@@ -1,9 +1,10 @@
+
 const puppeteer = require('puppeteer-extra');
 const StealthPlugin = require('puppeteer-extra-plugin-stealth');
 puppeteer.use(StealthPlugin());
 
 async function run() {
-    const browser = await puppeteer.launch({
+const browser = await puppeteer.launch({
     headless: true,
     args: [
         '--no-sandbox',
@@ -221,24 +222,7 @@ async function run() {
     // Take a screenshot after CAPTCHA is solved
     await page.screenshot({ path: 'screenshot.png' });
     console.log('Screenshot taken after CAPTCHA is solved.');
-// ... (previous code remains the same)
 
-try {
-    // Wait for the CAPTCHA to be solved
-    await page.waitForFunction(() => {
-        const recaptchaStatus = document.querySelector('iframe[src*="api2/anchor"]').contentWindow.document.querySelector('#recaptcha-accessible-status');
-        return recaptchaStatus && recaptchaStatus.innerText.includes('You are verified');
-    }, { timeout: 60000 });
-
-    // Take a screenshot after CAPTCHA is solved
-    await page.screenshot({ path: 'screenshot.png' });
-    console.log('Screenshot taken after CAPTCHA is solved.');
-} catch (error) {
-    console.error('Error occurred:', error);
-    console.log('CAPTCHA might not have been solved within the timeout period.');
-}
-
-await browser.close();
     await browser.close();
 }
 
