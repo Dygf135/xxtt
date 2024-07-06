@@ -1,4 +1,4 @@
-const { executablePath } = require('puppeteer');
+puppeteer.launch()
 const puppeteer = require('puppeteer-extra');
 const StealthPlugin = require('puppeteer-extra-plugin-stealth');
 puppeteer.use(StealthPlugin());
