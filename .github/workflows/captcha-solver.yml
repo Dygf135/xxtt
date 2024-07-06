@@ -12,28 +12,22 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v2
     
     - name: Set up Node.js
-      uses: actions/setup-node@v4
+      uses: actions/setup-node@v2
       with:
-        node-version: '20'
+        node-version: '14'
         
-    - name: Install system dependencies
+    - name: Install dependencies
       run: |
-        sudo apt-get update
-        sudo apt-get install -y libgbm-dev libnss3 libatk-bridge2.0-0 libgtk-3-0 libgdk-pixbuf2.0-0
-        
-    - name: Install Node dependencies
-      run: |
-        npm install puppeteer puppeteer-extra puppeteer-extra-plugin-stealth axios --verbose
+        npm install puppeteer puppeteer-extra puppeteer-extra-plugin-stealth axios
         
     - name: Run captcha solver
       run: node captcha-solver.js
       
     - name: Upload screenshot
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v2
       with:
         name: captcha-screenshot
         path: screenshot.png
-        if-no-files-found: warn
