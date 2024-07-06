@@ -12,12 +12,12 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     - name: Setup Node.js
-      uses: actions/setup-node@v2
+      uses: actions/setup-node@v3
       with:
-        node-version: '16'  # or the version you need
+        node-version: '20'  # Use the latest recommended version
 
     - name: Install dependencies
       run: npm install puppeteer puppeteer-extra puppeteer-extra-plugin-stealth axios
@@ -26,7 +26,8 @@ jobs:
       run: node captcha-solver.js
 
     - name: Upload screenshot
-      uses: actions/upload-artifact@v2
+      if: always()  # Ensure this step runs even if the previous step fails
+      uses: actions/upload-artifact@v3
       with:
         name: screenshot
         path: screenshot.png
